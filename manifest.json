@@ -1,0 +1,41 @@
+{
+  "manifest_version": 3,
+  "name": "Address Bar Voice Search Button",
+  "version": "1.0.0",
+  "description": "Adds a toolbar mic button that opens your search engine home page and auto-clicks its voice search icon.",
+  "action": {
+    "default_title": "Voice Search"
+  },
+  "options_page": "options/options.html",
+  "background": {
+    "service_worker": "src/background.js",
+    "type": "module"
+  },
+  "permissions": [
+    "storage",
+    "tabs"
+  ],
+  "commands": {
+    "voice-search": {
+      "suggested_key": {
+        "default": "Alt+Shift+V"
+      },
+      "description": "Open search engine and start voice search"
+    }
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://www.google.com/*",
+        "https://google.com/*",
+        "https://www.bing.com/*",
+        "https://bing.com/*",
+        "https://duckduckgo.com/*"
+      ],
+      "js": ["src/content-script.js"],
+      "run_at": "document_idle"
+    }
+  ]
+}
+
+

@@ -1,0 +1,52 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Voice Search Options</title>
+    <style>
+      body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 16px; }
+      .row { margin-bottom: 12px; }
+      label { display: block; font-weight: 600; margin-bottom: 6px; }
+      input[type="text"], select { width: 100%; padding: 8px; box-sizing: border-box; }
+      .help { color: #555; font-size: 12px; margin-top: 4px; }
+      .actions { margin-top: 16px; }
+      button { padding: 8px 12px; }
+    </style>
+  </head>
+  <body>
+    <h2>Address Bar Voice Search</h2>
+
+    <div class="row">
+      <label for="engine">Search engine</label>
+      <select id="engine">
+        <option value="google">Google</option>
+        <option value="bing">Bing</option>
+        <option value="duckduckgo">DuckDuckGo</option>
+        <option value="custom">Custom</option>
+      </select>
+      <div class="help">This is used to open the correct home page and click its voice button.</div>
+    </div>
+
+    <div class="row" id="customUrlRow" style="display:none">
+      <label for="customUrl">Custom home page URL</label>
+      <input id="customUrl" type="text" placeholder="https://example.com/" />
+      <div class="help">The page to open when you click the toolbar mic.</div>
+    </div>
+
+    <div class="row" id="customSelectorRow" style="display:none">
+      <label for="customSelector">Custom voice button CSS selector (optional)</label>
+      <input id="customSelector" type="text" placeholder="e.g. button[aria-label*='voice']" />
+      <div class="help">Provide a selector for the page's voice search icon if auto-detection fails.</div>
+    </div>
+
+    <div class="actions">
+      <button id="save">Save</button>
+      <span id="status" class="help" aria-live="polite" style="margin-left:8px"></span>
+    </div>
+
+    <script type="module" src="options.js"></script>
+  </body>
+  </html>
+
+
