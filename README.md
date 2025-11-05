@@ -20,6 +20,7 @@ Options
 - Right-click the extension icon → Options, or open from the extensions page.
 - Choose one of: Google, Bing, DuckDuckGo, or Custom.
 - For Custom, provide the homepage URL and (optionally) the CSS selector of the voice button if auto-detection fails.
+ - Open in new tab: toggle this if you prefer opening the search in a new tab. Default is current tab.
 
 Notes
 -----

@@ -111,4 +111,74 @@ whenReady(async () => {
   observer.observe(document.documentElement, { childList: true, subtree: true });
 });
 
+// Inject a simple notification bar with a link to Options so users can configure behavior.
+function injectConfigBar() {
+  if (document.getElementById('asv-config-bar')) return; // avoid duplicates
+
+  const bar = document.createElement('div');
+  bar.id = 'asv-config-bar';
+  bar.style.position = 'fixed';
+  bar.style.top = '0';
+  bar.style.left = '0';
+  bar.style.right = '0';
+  bar.style.zIndex = '2147483647';
+  bar.style.background = '#0b5fff';
+  bar.style.color = '#fff';
+  bar.style.fontFamily = 'system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif';
+  bar.style.fontSize = '13px';
+  bar.style.padding = '8px 12px';
+  bar.style.boxShadow = '0 2px 6px rgba(0,0,0,0.2)';
+  bar.style.display = 'flex';
+  bar.style.alignItems = 'center';
+  bar.style.gap = '8px';
+
+  const text = document.createElement('span');
+  text.textContent = 'Voice Search: Configure options (engine, new tab) →';
+
+  const link = document.createElement('a');
+  // Use runtime URL so it works regardless of the installed extension ID
+  link.href = chrome.runtime.getURL('options/options.html');
+  link.textContent = 'Open Options';
+  link.style.color = '#fff';
+  link.style.textDecoration = 'underline';
+  link.target = '_blank';
+  link.rel = 'noopener noreferrer';
+
+  const spacer = document.createElement('div');
+  spacer.style.flex = '1';
+
+  const close = document.createElement('button');
+  close.type = 'button';
+  close.textContent = '×';
+  close.title = 'Dismiss';
+  close.style.background = 'transparent';
+  close.style.border = 'none';
+  close.style.color = '#fff';
+  close.style.fontSize = '18px';
+  close.style.cursor = 'pointer';
+  close.addEventListener('click', () => {
+    bar.remove();
+  });
+
+  bar.appendChild(text);
+  bar.appendChild(link);
+  bar.appendChild(spacer);
+  bar.appendChild(close);
+
+  // Offset page content to avoid covering top elements
+  const placeholder = document.createElement('div');
+  placeholder.id = 'asv-config-bar-ph';
+  placeholder.style.height = '40px';
+  placeholder.style.width = '100%';
+
+  document.documentElement.appendChild(bar);
+  document.body && document.body.firstChild
+    ? document.body.insertBefore(placeholder, document.body.firstChild)
+    : document.body.appendChild(placeholder);
+}
+
+whenReady(() => {
+  try { injectConfigBar(); } catch (_e) { /* ignore */ }
+});
+
 

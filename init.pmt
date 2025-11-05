@@ -1,0 +1,5 @@
+In edge browser or chrome browser as you have seen it lets you search from addressbar via typing search query. But the address bar doesn't have a microphone icon to search with voice. I want to enable the microphone icon alongside address bar to serach using voice, just like it is present on home page of search engines alongside the query box. So I want you to build a browser extension to do the same. You need not use voice to text api but rather you can facilitate moving to home page of default search engine and then using the voice to search button along the search query box.
+
+Another thing is, why are you opening a new tab everytiime. actually I want it to be configurable, if the user wants to launch a new tab to search then he should configure accordingly but default behaviour should be to search in current tab. can you make it configurable?
+
+Ok thats great , just add a notification bar on current tag's page  with link to "extension://hhimkmpaajekfbkobbgjhbilkakdlnjh/options/options.html" so that people know where to configure it
