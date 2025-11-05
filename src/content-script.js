@@ -19,8 +19,11 @@ const ENGINE_SELECTORS = {
     'button[aria-label*="voice" i]'
   ],
   bing: [
+    '#sb_form > div.mic_cont.icon > div',
+    '#sb_form .b_searchboxMic',
+    '#sb_form .b_searchboxVoice',
     'button[aria-label*="voice" i]',
-    '.b_searchboxVoice'
+    'button[aria-label*="microphone" i]'
   ]//,
   // duckduckgo: [
   //   'button[aria-label*="voice" i]',
@@ -60,11 +63,39 @@ function tryFindButton(selectors) {
 function clickIfVisible(el) {
   const rect = el.getBoundingClientRect();
   const visible = rect.width > 0 && rect.height > 0;
-  if (visible) {
-    el.click();
-    return true;
+  if (!visible) return false;
+  try {
+    el.scrollIntoView({ block: 'center', inline: 'center', behavior: 'instant' });
+  } catch (_e) {
+    // ignore
   }
-  return false;
+
+  try {
+    const pointerDown = new PointerEvent('pointerdown', { bubbles: true });
+    const mouseDown = new MouseEvent('mousedown', { bubbles: true });
+    const click = new MouseEvent('click', { bubbles: true });
+    el.dispatchEvent(pointerDown);
+    el.dispatchEvent(mouseDown);
+    el.dispatchEvent(click);
+  } catch (_e) {
+    try { el.click(); } catch (_e2) { /* ignore */ }
+  }
+  return true;
+}
+
+function sleep(ms) {
+  return new Promise((r) => setTimeout(r, ms));
+}
+
+async function prepareBing() {
+  // Focus the search box first so the mic icon initializes in some variants
+  const q = document.querySelector('#sb_form_q') || document.querySelector('#sb_form input[name="q"]');
+  if (q) {
+    try {
+      q.focus();
+      await sleep(120);
+    } catch (_e) {}
+  }
 }
 
 async function attemptClick() {
@@ -76,9 +107,23 @@ async function attemptClick() {
   if (engine && ENGINE_SELECTORS[engine]) selectors.push(...ENGINE_SELECTORS[engine]);
   if (customSelector) selectors.unshift(customSelector);
 
-  const button = tryFindButton(selectors);
+  // Special handling for Bing: focus first to make the mic appear consistently
+  if (engine === 'bing') {
+    await prepareBing();
+  }
+
+  let button = tryFindButton(selectors);
   if (button) {
     if (clickIfVisible(button)) return true;
+  }
+
+  if (engine === 'bing') {
+    // Retry once after a brief wait; Bing UI can mount lazily
+    await sleep(200);
+    button = tryFindButton(selectors);
+    if (button) {
+      if (clickIfVisible(button)) return true;
+    }
   }
   return false;
 }
