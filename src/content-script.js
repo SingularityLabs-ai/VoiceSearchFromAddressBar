@@ -137,6 +137,22 @@ function whenReady(fn) {
 }
 
 whenReady(async () => {
+  // Skip auto-click on Google results pages to avoid continuing to listen after search
+  try {
+    const engineDetected = detectEngineFromLocation();
+    if (engineDetected === 'google') {
+      const params = new URLSearchParams(location.search);
+      const hasQuery = !!(params.get('q') || params.get('oq'));
+      const onResultsPath = location.pathname.startsWith('/search');
+      if (hasQuery || onResultsPath) {
+        // Still inject config bar, but do not attempt voice click
+        const show = await shouldShowConfigBar();
+        if (show) injectConfigBar();
+        return;
+      }
+    }
+  } catch (_e) { /* ignore */ }
+
   let attempts = 0;
   const maxAttempts = 10;
   const interval = 400;

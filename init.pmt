@@ -9,3 +9,5 @@ great, now style options.html a bit, it looks too ordinary
 If the user closes the notification bar with close/dismiss button, dont show the notification bar again for 3 days.
 
 its not really working for bing, its navigating to bing.com alright but after that it is not clicking the microphone
+
+in google search there seems to be a bug, it continues to listen even after the search is done.
