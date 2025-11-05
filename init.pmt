@@ -11,3 +11,5 @@ If the user closes the notification bar with close/dismiss button, dont show the
 its not really working for bing, its navigating to bing.com alright but after that it is not clicking the microphone
 
 in google search there seems to be a bug, it continues to listen even after the search is done.
+
+I have added images of various sizes in icons folder, can you modify the manifest.jsion to use those as the logo on action button instead of Letter A.
