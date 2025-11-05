@@ -14,11 +14,11 @@ const ENGINE_PRESETS = {
   bing: {
     url: 'https://www.bing.com/',
     selector: 'button[aria-label*="voice" i], .b_searchboxVoice'
-  },
-  duckduckgo: {
-    url: 'https://duckduckgo.com/',
-    selector: 'button[aria-label*="voice" i], [data-testid="voice-input"], [data-test*="voice" i]'
-  }
+  }//,
+  // duckduckgo: {
+  //   url: 'https://duckduckgo.com/',
+  //   selector: 'button[aria-label*="voice" i], [data-testid="voice-input"], [data-test*="voice" i]'
+  // }
 };
 
 async function getSettings() {

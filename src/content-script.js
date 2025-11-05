@@ -9,8 +9,8 @@ const STORAGE_KEY = {
 
 const ENGINE_DOMAIN_TO_ID = [
   { test: /(^|\.)google\.[a-z.]+$/i, engine: 'google' },
-  { test: /(^|\.)bing\.com$/i, engine: 'bing' },
-  { test: /(^|\.)duckduckgo\.com$/i, engine: 'duckduckgo' }
+  { test: /(^|\.)bing\.com$/i, engine: 'bing' }//,
+  // { test: /(^|\.)duckduckgo\.com$/i, engine: 'duckduckgo' }
 ];
 
 const ENGINE_SELECTORS = {
@@ -21,12 +21,12 @@ const ENGINE_SELECTORS = {
   bing: [
     'button[aria-label*="voice" i]',
     '.b_searchboxVoice'
-  ],
-  duckduckgo: [
-    'button[aria-label*="voice" i]',
-    '[data-testid="voice-input"]',
-    '[data-test*="voice" i]'
-  ]
+  ]//,
+  // duckduckgo: [
+  //   'button[aria-label*="voice" i]',
+  //   '[data-testid="voice-input"]',
+  //   '[data-test*="voice" i]'
+  // ]
 };
 
 function detectEngineFromLocation() {
