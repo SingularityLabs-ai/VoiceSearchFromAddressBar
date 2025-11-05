@@ -3,7 +3,8 @@
 
 const STORAGE_KEY = {
   ENGINE: 'engine',
-  CUSTOM_SELECTOR: 'customSelector'
+  CUSTOM_SELECTOR: 'customSelector',
+  CONFIG_BAR_DISMISSED_AT: 'configBarDismissedAt'
 };
 
 const ENGINE_DOMAIN_TO_ID = [
@@ -157,7 +158,16 @@ function injectConfigBar() {
   close.style.fontSize = '18px';
   close.style.cursor = 'pointer';
   close.addEventListener('click', () => {
-    bar.remove();
+    try {
+      const ph = document.getElementById('asv-config-bar-ph');
+      if (ph) ph.remove();
+      bar.remove();
+      if (chrome && chrome.storage && chrome.storage.sync) {
+        chrome.storage.sync.set({ [STORAGE_KEY.CONFIG_BAR_DISMISSED_AT]: Date.now() });
+      }
+    } catch (_e) {
+      // ignore
+    }
   });
 
   bar.appendChild(text);
@@ -177,8 +187,28 @@ function injectConfigBar() {
     : document.body.appendChild(placeholder);
 }
 
-whenReady(() => {
-  try { injectConfigBar(); } catch (_e) { /* ignore */ }
+const THREE_DAYS_MS = 3 * 24 * 60 * 60 * 1000;
+
+function shouldShowConfigBar() {
+  return new Promise((resolve) => {
+    try {
+      chrome.storage.sync.get({ [STORAGE_KEY.CONFIG_BAR_DISMISSED_AT]: 0 }, (data) => {
+        const dismissedAt = Number(data[STORAGE_KEY.CONFIG_BAR_DISMISSED_AT] || 0);
+        if (!dismissedAt) return resolve(true);
+        const elapsed = Date.now() - dismissedAt;
+        resolve(elapsed >= THREE_DAYS_MS);
+      });
+    } catch (_e) {
+      resolve(true);
+    }
+  });
+}
+
+whenReady(async () => {
+  try {
+    const show = await shouldShowConfigBar();
+    if (show) injectConfigBar();
+  } catch (_e) { /* ignore */ }
 });
 
 

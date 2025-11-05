@@ -5,3 +5,5 @@ Another thing is, why are you opening a new tab everytiime. actually I want it t
 Ok thats great , just add a notification bar on current tag's page  with link to "extension://hhimkmpaajekfbkobbgjhbilkakdlnjh/options/options.html" so that people know where to configure it
 
 great, now style options.html a bit, it looks too ordinary
+
+If the user closes the notification bar with close/dismiss button, dont show the notification bar again for 3 days.
