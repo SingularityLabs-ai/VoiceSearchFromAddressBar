@@ -3,3 +3,5 @@ In edge browser or chrome browser as you have seen it lets you search from addre
 Another thing is, why are you opening a new tab everytiime. actually I want it to be configurable, if the user wants to launch a new tab to search then he should configure accordingly but default behaviour should be to search in current tab. can you make it configurable?
 
 Ok thats great , just add a notification bar on current tag's page  with link to "extension://hhimkmpaajekfbkobbgjhbilkakdlnjh/options/options.html" so that people know where to configure it
+
+great, now style options.html a bit, it looks too ordinary
